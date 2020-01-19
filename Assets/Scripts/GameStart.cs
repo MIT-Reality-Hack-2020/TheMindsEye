@@ -14,7 +14,7 @@ public class GameStart : MonoBehaviour
         // play sound, user enter to the game 
         // start game with 1 min investigation
         questionSystemManager = GameObject.Find("QuestionSystemManager").GetComponent<QuestionSystemManager>();
-        questionSystemManager.goNext(30f);
+        questionSystemManager.goNext(10f);
         Debug.Log("hi");
 
         GlobalScript.highlightMaterial = highlightMat;

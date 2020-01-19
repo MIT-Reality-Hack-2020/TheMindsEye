@@ -22,6 +22,7 @@ namespace ViveSR.anipal.Eye
 
         private float timeCount = 0f;
 
+        private bool oneTime = true;
        
 
         private void Awake()
@@ -41,12 +42,26 @@ namespace ViveSR.anipal.Eye
 
             if (timeCount > 0.5f)
             {
-                Debug.Log(gameObject.name);
+               // Debug.Log(gameObject.name);
                 timeCount = 0;
-                Debug.Log(originalMaterial);
+                GlobalScript.inFocus = null;
+                //Debug.Log(originalMaterial);
                 //Renderer.material = originalMaterial;
                 Renderer.material.SetColor("_Color",oriColor);
             }
+
+
+            if (oneTime)
+            {
+                if (Global.EndGame)
+                {
+                    Global.statistic[Global.interation].objectName = gameObject.name;
+                    Global.statistic[Global.interation].totalTime = focusingTime;
+                    Global.interation++;
+                    oneTime = false;
+                }
+            }
+           
 
        
         }
@@ -62,16 +77,10 @@ namespace ViveSR.anipal.Eye
             //print("WOW");
 
             focusingTime += Time.deltaTime;
-          /*  StartCoroutine(fiveSec());*/
+          
        
         }
 
-        /*IEnumerator fiveSec()
-        {
-            yield return new WaitForSeconds(0.3f);
-            print("5");
-            GlobalScript.inFocus = null;
-        }*/
 
     }
 }

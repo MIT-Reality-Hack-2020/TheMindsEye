@@ -17,6 +17,7 @@ public class QuestionSystemManager : MonoBehaviour
     public HighlightedObject[] objectArray;
     public GameObject questionText; 
     public Material fadeoutMaterial;
+    public GameObject timeText;
 
     int target;
     int next;
@@ -28,6 +29,7 @@ public class QuestionSystemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timer = timeLimit;
         target = -2;
         next = -1;
     }
@@ -35,16 +37,18 @@ public class QuestionSystemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeText.GetComponent<TextMeshProUGUI>().text = timer.ToString();
+
         next = target + 1;
         // investigation begins
         if (investigation){
-            timer = timer + Time.deltaTime;
+            timer = timer - Time.deltaTime;
         }
        // investigation end
-        if(investigation && timer > timeLimit){
+        if(investigation && timer < 0){
             Debug.Log("end investigation");
-            Debug.Log(next);
-            Debug.Log(objectArray[next].highlightedObjects.Length);
+            //Debug.Log(next);
+            //Debug.Log(objectArray[next].highlightedObjects.Length);
             investigation = false;
             timer = 0;
 
@@ -73,7 +77,7 @@ public class QuestionSystemManager : MonoBehaviour
     public void goNext(float lengthOfInvestigation)
     {
         timeLimit = lengthOfInvestigation;
-        timer = 0;
+        timer = timeLimit;
         target++;
         next++;
         // go to next question
